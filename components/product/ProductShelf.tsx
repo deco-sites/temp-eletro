@@ -16,6 +16,7 @@ export interface Props {
   products: Product[] | null;
   title?: string;
   description?: string;
+  linkUrl?: string;
   layout?: {
     headerAlignment?: "center" | "left";
     headerfontSize?: "Normal" | "Large";
@@ -27,6 +28,7 @@ function ProductShelf({
   products,
   title,
   description,
+  linkUrl,
   layout,
   cardLayout,
 }: Props) {
@@ -38,10 +40,11 @@ function ProductShelf({
   }
 
   return (
-    <div class="w-full container  py-8 flex flex-col gap-12 lg:gap-16 lg:py-10">
+    <div class="w-full container  py-8 flex flex-col gap-4 lg:gap-8 lg:py-10">
       <Header
         title={title || ""}
-        description={description || ""}
+        linkText={description || ""}
+        linkUrl={linkUrl}
         fontSize={layout?.headerfontSize || "Large"}
         alignment={layout?.headerAlignment || "center"}
       />
