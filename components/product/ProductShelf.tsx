@@ -16,6 +16,7 @@ export interface Props {
   products: Product[] | null;
   title?: string;
   description?: string;
+  linkUrl?: string;
   layout?: {
     headerAlignment?: "center" | "left";
     headerfontSize?: "Normal" | "Large";
@@ -27,6 +28,7 @@ function ProductShelf({
   products,
   title,
   description,
+  linkUrl,
   layout,
   cardLayout,
 }: Props) {
@@ -38,10 +40,11 @@ function ProductShelf({
   }
 
   return (
-    <div class="w-full container  py-8 flex flex-col gap-12 lg:gap-16 lg:py-10">
+    <div class="w-full container  py-8 flex flex-col gap-4 lg:gap-8 lg:py-10">
       <Header
         title={title || ""}
-        description={description || ""}
+        linkText={description || ""}
+        linkUrl={linkUrl}
         fontSize={layout?.headerfontSize || "Large"}
         alignment={layout?.headerAlignment || "center"}
       />
@@ -50,11 +53,11 @@ function ProductShelf({
         id={id}
         class="container grid grid-cols-[48px_1fr_48px] px-0 sm:px-5"
       >
-        <Slider class="carousel carousel-center sm:carousel-end gap-6 col-span-full row-start-2 row-end-5">
+        <Slider class="carousel carousel-center sm:carousel-end gap-6 col-span-full row-start-2 row-end-5 p-5">
           {products?.map((product, index) => (
             <Slider.Item
               index={index}
-              class="carousel-item w-[270px] sm:w-[292px] first:pl-6 sm:first:pl-0 last:pr-6 sm:last:pr-0"
+              class="carousel-item w-[300px] xl:w-[360px] first:pl-6 sm:first:pl-0 last:pr-6 sm:last:pr-0"
             >
               <ProductCard
                 product={product}

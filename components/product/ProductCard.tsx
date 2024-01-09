@@ -8,6 +8,7 @@ import { useVariantPossibilities } from "$store/sdk/useVariantPossiblities.ts";
 import type { Product } from "apps/commerce/types.ts";
 import { mapProductToAnalyticsItem } from "apps/commerce/utils/productToAnalyticsItem.ts";
 import Image from "apps/website/components/Image.tsx";
+import Icon from "$store/components/ui/Icon.tsx";
 
 export interface Layout {
   basics?: {
@@ -57,8 +58,8 @@ const relative = (url: string) => {
   return `${link.pathname}${link.search}`;
 };
 
-const WIDTH = 200;
-const HEIGHT = 279;
+const WIDTH = 260;
+const HEIGHT = 220;
 
 function ProductCard(
   { product, preload, itemListName, layout, platform, index }: Props,
@@ -99,22 +100,21 @@ function ProductCard(
     <a
       href={url && relative(url)}
       aria-label="view product"
-      class="btn btn-block"
+      class="btn btn-primary btn-block bg-secondary text-white rounded-md border-none"
     >
-      {l?.basics?.ctaText || "Ver produto"}
+      <Icon id="Wallet" width={22} height={22}/>{l?.basics?.ctaText || "Ver produto"}
     </a>
   );
+
 
   return (
     <div
       id={id}
-      class={`card card-compact group w-full ${
-        align === "center" ? "text-center" : "text-start"
-      } ${l?.onMouseOver?.showCardShadow ? "lg:hover:card-bordered" : ""}
-        ${
-        l?.onMouseOver?.card === "Move up" &&
+      class={`card card-compact group w-full p-5 card-bordered border-[#D0D5DD] rounded-md shadow-slate-900 shadow-[3px_3px_15px_-8px] ${align === "center" ? "text-center" : "text-start"
+        } ${l?.onMouseOver?.showCardShadow ? "lg:hover:card-bordered" : ""}
+        ${l?.onMouseOver?.card === "Move up" &&
         "duration-500 transition-translate ease-in-out lg:hover:-translate-y-2"
-      }
+        }
       `}
       data-deco="view-product"
     >
@@ -135,6 +135,22 @@ function ProductCard(
           },
         }}
       />
+      {/* FLAG AND RATING */}
+      <div class="flex justify-between pb-3 pt-1">
+        <span class="bg-accent px-2 rounded-md text-white font-bold">
+          33%
+        </span>
+        <div class="flex items-center gap-1">
+          <span class="flex">
+            <Icon id="Star" width={16} height={16} fill="#EFBA00"/>
+            <Icon id="Star" width={16} height={16} fill="#EFBA00"/>
+            <Icon id="Star" width={16} height={16} fill="#EFBA00"/>
+            <Icon id="Star" width={16} height={16} fill="#EFBA00"/>
+            <Icon id="Star" width={16} height={16} fill="#EFBA00"/>
+          </span>
+          <span class="text-primary text-sm">{"(369)"}</span>
+        </div>
+      </div>
       <figure
         class="relative overflow-hidden"
         style={{ aspectRatio: `${WIDTH} / ${HEIGHT}` }}
@@ -142,16 +158,14 @@ function ProductCard(
         {/* Wishlist button */}
         <div
           class={`absolute top-2 z-10
-          ${
-            l?.elementsPositions?.favoriteIcon === "Top left"
+          ${l?.elementsPositions?.favoriteIcon === "Top left"
               ? "left-2"
               : "right-2"
-          }
-          ${
-            l?.onMouseOver?.showFavoriteIcon
+            }
+          ${l?.onMouseOver?.showFavoriteIcon
               ? "lg:hidden lg:group-hover:block"
               : "lg:hidden"
-          }
+            }
         `}
         >
           {platform === "vtex" && (
@@ -172,11 +186,10 @@ function ProductCard(
             alt={front.alternateName}
             width={WIDTH}
             height={HEIGHT}
-            class={`bg-base-100 col-span-full row-span-full rounded w-full ${
-              l?.onMouseOver?.image == "Zoom image"
+            class={`bg-base-100 col-span-full row-span-full rounded w-full ${l?.onMouseOver?.image == "Zoom image"
                 ? "duration-100 transition-scale scale-100 lg:group-hover:scale-125"
                 : ""
-            }`}
+              }`}
             sizes="(max-width: 640px) 50vw, 20vw"
             preload={preload}
             loading={preload ? "eager" : "lazy"}
@@ -184,60 +197,43 @@ function ProductCard(
           />
           {(!l?.onMouseOver?.image ||
             l?.onMouseOver?.image == "Change image") && (
-            <Image
-              src={back?.url ?? front.url!}
-              alt={back?.alternateName ?? front.alternateName}
-              width={WIDTH}
-              height={HEIGHT}
-              class="bg-base-100 col-span-full row-span-full transition-opacity rounded w-full opacity-0 lg:group-hover:opacity-100"
-              sizes="(max-width: 640px) 50vw, 20vw"
-              loading="lazy"
-              decoding="async"
-            />
-          )}
+              <Image
+                src={back?.url ?? front.url!}
+                alt={back?.alternateName ?? front.alternateName}
+                width={WIDTH}
+                height={HEIGHT}
+                class="bg-base-100 col-span-full row-span-full transition-opacity rounded w-full opacity-0 lg:group-hover:opacity-100"
+                sizes="(max-width: 640px) 50vw, 20vw"
+                loading="lazy"
+                decoding="async"
+              />
+            )}
         </a>
-        <figcaption
-          class={`
-          absolute bottom-1 left-0 w-full flex flex-col gap-3 p-2 ${
-            l?.onMouseOver?.showSkuSelector || l?.onMouseOver?.showCta
-              ? "transition-opacity opacity-0 lg:group-hover:opacity-100"
-              : "lg:hidden"
-          }`}
-        >
-          {/* SKU Selector */}
-          {l?.onMouseOver?.showSkuSelector && (
-            <ul class="flex justify-center items-center gap-2 w-full">
-              {skuSelector}
-            </ul>
-          )}
-          {l?.onMouseOver?.showCta && cta}
-        </figcaption>
       </figure>
       {/* Prices & Name */}
-      <div class="flex-auto flex flex-col p-2 gap-3 lg:gap-4">
+      <div class="flex-auto flex flex-col p-2 gap-2 lg:gap-3">
         {/* SKU Selector */}
         {(!l?.elementsPositions?.skuSelector ||
           l?.elementsPositions?.skuSelector === "Top") && (
-          <>
-            {l?.hide?.skuSelector ? "" : (
-              <ul
-                class={`flex items-center gap-2 w-full overflow-auto p-3 ${
-                  align === "center" ? "justify-center" : "justify-start"
-                } ${l?.onMouseOver?.showSkuSelector ? "lg:hidden" : ""}`}
-              >
-                {skuSelector}
-              </ul>
-            )}
-          </>
-        )}
+            <>
+              {l?.hide?.skuSelector ? "" : (
+                <ul
+                  class={`flex items-center gap-2 w-full overflow-auto p-3 ${align === "center" ? "justify-center" : "justify-start"
+                    } ${l?.onMouseOver?.showSkuSelector ? "lg:hidden" : ""}`}
+                >
+                  {skuSelector}
+                </ul>
+              )}
+            </>
+          )}
 
         {l?.hide?.productName && l?.hide?.productDescription
           ? ""
           : (
             <div class="flex flex-col gap-0">
               {l?.hide?.productName ? "" : (
-                <h2
-                  class="truncate text-base lg:text-lg text-base-content"
+                <h3
+                  class="truncate text-sm lg:text-lg text-[#101828]"
                   dangerouslySetInnerHTML={{ __html: name ?? "" }}
                 />
               )}
@@ -252,41 +248,55 @@ function ProductCard(
         {l?.hide?.allPrices ? "" : (
           <div class="flex flex-col gap-2">
             <div
-              class={`flex flex-col gap-0 ${
-                l?.basics?.oldPriceSize === "Normal"
+              class={`flex flex-col gap-0 ${l?.basics?.oldPriceSize === "Normal"
                   ? "lg:flex-row lg:gap-2"
                   : ""
-              } ${align === "center" ? "justify-center" : "justify-start"}`}
+                } ${align === "center" ? "justify-center" : "justify-start"}`}
             >
               <div
-                class={`line-through text-base-300 text-xs ${
-                  l?.basics?.oldPriceSize === "Normal" ? "lg:text-xl" : ""
-                }`}
+                class={`line-through text-sm text-neutral-900 ${l?.basics?.oldPriceSize === "Normal" ? "lg:text-xl" : ""
+                  }`}
               >
                 {formatPrice(listPrice, offers?.priceCurrency)}
               </div>
-              <div class="text-accent text-base lg:text-xl">
+              <div class="text-primary text-2xl font-extrabold">
                 {formatPrice(price, offers?.priceCurrency)}
               </div>
             </div>
             {l?.hide?.installments
               ? ""
               : (
-                <div class="text-base-300 text-sm lg:text-base truncate">
-                  ou {installments}
+                <div class="text-base-300 text-xs lg:text-base truncate">
+                  <p>À vista no PIX</p>
+                  Ou {installments}
                 </div>
               )}
+            <div class="flex items-center">
+              <Icon id="Truck" width={28} height={22}/><p class="text-primary text-xs uppercase">Frete Grátis</p>
+            </div>
           </div>
         )}
-
+              <figcaption
+          class={`w-full flex flex-col gap-3 lg:p-2 ${l?.onMouseOver?.showSkuSelector || l?.onMouseOver?.showCta
+              ? "transition-opacity opacity-0 lg:group-hover:opacity-100"
+              : "lg:hidden"
+            }`}
+        >
+          {/* SKU Selector */}
+          {l?.onMouseOver?.showSkuSelector && (
+            <ul class="flex justify-center items-center gap-2 w-full">
+              {skuSelector}
+            </ul>
+          )}
+          {l?.onMouseOver?.showCta && cta}
+        </figcaption>
         {/* SKU Selector */}
         {l?.elementsPositions?.skuSelector === "Bottom" && (
           <>
             {l?.hide?.skuSelector ? "" : (
               <ul
-                class={`flex items-center gap-2 w-full ${
-                  align === "center" ? "justify-center" : "justify-start"
-                } ${l?.onMouseOver?.showSkuSelector ? "lg:hidden" : ""}`}
+                class={`flex items-center gap-2 w-full ${align === "center" ? "justify-center" : "justify-start"
+                  } ${l?.onMouseOver?.showSkuSelector ? "lg:hidden" : ""}`}
               >
                 {skuSelector}
               </ul>
@@ -297,9 +307,8 @@ function ProductCard(
         {!l?.hide?.cta
           ? (
             <div
-              class={`flex-auto flex items-end ${
-                l?.onMouseOver?.showCta ? "lg:hidden" : ""
-              }`}
+              class={`flex-auto flex items-end ${l?.onMouseOver?.showCta ? "lg:hidden" : ""
+                }`}
             >
               {cta}
             </div>
