@@ -110,7 +110,7 @@ function ProductCard(
   return (
     <div
       id={id}
-      class={`card card-compact group w-full p-5 card-bordered border-[#D0D5DD] shadow-slate-900 shadow-[3px_3px_15px_-8px] ${align === "center" ? "text-center" : "text-start"
+      class={`card card-compact group w-full p-5 card-bordered border-[#D0D5DD] rounded-md shadow-slate-900 shadow-[3px_3px_15px_-8px] ${align === "center" ? "text-center" : "text-start"
         } ${l?.onMouseOver?.showCardShadow ? "lg:hover:card-bordered" : ""}
         ${l?.onMouseOver?.card === "Move up" &&
         "duration-500 transition-translate ease-in-out lg:hover:-translate-y-2"
@@ -268,7 +268,7 @@ function ProductCard(
               : (
                 <div class="text-base-300 text-xs lg:text-base truncate">
                   <p>À vista no PIX</p>
-                  ou {installments}
+                  Ou {installments}
                 </div>
               )}
             <div class="flex items-center">
