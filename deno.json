@@ -1,10 +1,9 @@
 {
   "imports": {
     "deco-sites/temp-eletro/": "./",
-
     "$store/": "./",
-    "deco/": "https://denopkg.com/deco-cx/deco@1.43.0/",
-    "apps/": "https://denopkg.com/deco-cx/apps@0.17.0/",
+    "deco/": "https://denopkg.com/deco-cx/deco@1.52.6/",
+    "apps/": "https://denopkg.com/deco-cx/apps@0.32.4/",
     "$fresh/": "https://denopkg.com/deco-cx/fresh@1.4.4/",
     "preact": "https://esm.sh/preact@10.15.1",
     "preact/": "https://esm.sh/preact@10.15.1/",
@@ -16,7 +15,7 @@
     "daisyui": "npm:daisyui@3.9.2"
   },
   "tasks": {
-    "start": "deno task bundle && deno run -A --unstable --watch=tailwind.css,sections/,functions/,loaders/,actions/,workflows/,accounts/,.env dev.ts",
+    "start": "deno task bundle && deno run -A --unstable-kv --watch=tailwind.css,sections/,functions/,loaders/,actions/,workflows/,accounts/,.env dev.ts",
     "gen": "deno run -A dev.ts --gen-only",
     "play": "USE_LOCAL_STORAGE_ONLY=true deno task start",
     "component": "deno eval 'import \"deco/scripts/component.ts\"'",
@@ -34,7 +33,7 @@
     "pre-commit": "check"
   },
   "exclude": [
-    "node_modules",
+    "node_modules", 
     "static/",
     "README.md",
     "_fresh"
@@ -50,6 +49,7 @@
   "nodeModulesDir": true,
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "preact"
+    "jsxImportSource": "preact",
+    "experimentalDecorators": true
   }
 }
